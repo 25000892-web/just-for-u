@@ -425,16 +425,23 @@
             instancedMesh.instanceMatrix.needsUpdate = true; instancedMesh.instanceColor.needsUpdate = true;
         }
         
-        function animate() {
-            const _0x1 = document.getElementById('dhao-copyright');
-            const _0x2 = "\x74\x69\x6b\x74\x6f\x6b\x3a\x20\x62\x69\x6e\x6e\x61\x6e\x65\x65";
-            if (!_0x1 || _0x1.innerText !== _0x2 || getComputedStyle(_0x1).display === 'none' || getComputedStyle(_0x1).opacity === '0' || getComputedStyle(_0x1).visibility === 'hidden') {
-                if (scene) scene.clear();
-                const _n = document.createElement('div'); _n.id = 'dhao-copyright'; _n.innerText = _0x2;
-                Object.assign(_n.style, { position: 'fixed', bottom: '8px', right: '12px', color: '#ffffff', fontSize: '12px', fontFamily: "'Montserrat', sans-serif", fontWeight: '600', zIndex: '999999', pointerEvents: 'none', userSelect: 'none', textShadow: '0 0 4px #000' });
-                document.body.appendChild(_n);
-            }
-
+       function animate() {
+    requestAnimationFrame(animate);
+    const dt = clock.getDelta();
+    let bass = 0; 
+    
+    // Kiểm tra nếu âm thanh đã sẵn sàng thì lấy dữ liệu nhịp bass
+    if(isAudioSetup) { 
+        drawVisualizer(); 
+        bass = audioDataArray[0]/255; 
+    }
+    
+    // Cập nhật hiệu ứng hạt bay theo thời gian và nhịp nhạc
+    updateParticles(dt, bass);
+    
+    // Vẽ lại toàn bộ cảnh lên màn hình
+    composer.render();
+}
             requestAnimationFrame(animate);
             const dt = clock.getDelta();
 
