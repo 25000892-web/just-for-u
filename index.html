@@ -425,39 +425,24 @@
             instancedMesh.instanceMatrix.needsUpdate = true; instancedMesh.instanceColor.needsUpdate = true;
         }
         
-       function animate() {
-    requestAnimationFrame(animate);
-    const dt = clock.getDelta();
-    let bass = 0; 
-    
-    // Kiểm tra nếu âm thanh đã sẵn sàng thì lấy dữ liệu nhịp bass
-    if(isAudioSetup) { 
-        drawVisualizer(); 
-        bass = audioDataArray[0]/255; 
-    }
-    
-    // Cập nhật hiệu ứng hạt bay theo thời gian và nhịp nhạc
-    updateParticles(dt, bass);
-    
-    // Vẽ lại toàn bộ cảnh lên màn hình
-    composer.render();
-}
+      function animate() {
             requestAnimationFrame(animate);
             const dt = clock.getDelta();
 
             let musicBass = 0;
             if (isAudioSetup && audioAnalyser && audioDataArray) {
                 drawVisualizer();
-                let sum = 0; for (let i = 0; i < 20; i++) { sum += audioDataArray[i]; }
+                let sum = 0; 
+                for (let i = 0; i < 20; i++) { sum += audioDataArray[i]; }
                 musicBass = (sum / 20) / 255; 
             }
 
             updateParticles(dt, musicBass); 
-            updateGlitter(dt); updateFloatingStars(dt); 
+            updateGlitter(dt); 
+            updateFloatingStars(dt); 
             updateAuraRing(dt, musicBass);
             composer.render();
         }
-
         function updateParticles(dt, musicBass = 0) {
             if (!instancedMesh) return;
             const time = clock.getElapsedTime();
@@ -614,5 +599,6 @@
 </body>
 
 </html>
+
 
 
